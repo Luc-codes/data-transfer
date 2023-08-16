@@ -23,7 +23,7 @@
         const textareaForm = document.getElementById('textareaForm');
         const fileForm = document.getElementById('fileForm');
 
-        inputForm.addEventListener('submit', (e) => {
+        inputForm.addEventListener('submit', async (e) => {
             e.preventDefault();
 
             const input = document.getElementById('inputElement').value;
@@ -32,10 +32,12 @@
                 input,
             };
 
-            postJSON('http://127.0.0.1:3000/input', body);
+            await postJSON('input', body);
+
+            input.value = "";
         });
 
-        textareaForm.addEventListener('submit', (e) => {
+        textareaForm.addEventListener('submit', async (e) => {
             e.preventDefault();
 
             const textarea = document.getElementById('textareaElement').value;
@@ -44,10 +46,12 @@
                 textarea,
             };
 
-            postJSON('http://127.0.0.1:3000/input', body);
+            await postJSON('input', body);
+            
+            textarea.value = "";
         });
 
-        fileForm.addEventListener('submit', (e) => {
+        fileForm.addEventListener('submit', async (e) => {
             e.preventDefault();
 
             const formData = new FormData();
@@ -55,12 +59,14 @@
 
             formData.append('file', fileInput.files[0]);
 
-            upload('http://127.0.0.1:3000/upload', formData);
+            await upload('upload', formData);
+
+            fileInput.value = "";
         });
 
-        async function postJSON(url, data) {
+        async function postJSON(path, data) {
             try {
-                const response = await fetch(url, {
+                const response = await fetch(`http://192.168.15.9:3000/${path}`, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
@@ -71,14 +77,16 @@
                 const result = await response.json();
 
                 console.log("Success:", result);
+                alert('Enviado com sucesso!');
             } catch (error) {
                 console.error("Error:", error);
+                alert('Falha ao enviar.');
             }
         }
 
-        async function upload(url, data) {
+        async function upload(path, data) {
             try {
-                const response = await fetch(url, {
+                const response = await fetch(`http://192.168.15.9:3000/${path}`, {
                     method: "POST",
                     body: data,
                 });
@@ -86,8 +94,10 @@
                 const result = await response.json();
 
                 console.log("Success:", result);
+                alert('Enviado com sucesso!');
             } catch (error) {
                 console.error("Error:", error);
+                alert('Falha ao enviar.');
             }
         }
     </script>

@@ -24,15 +24,17 @@ app.get('/', (req, res) => {
 app.post('/upload', upload.single('file'), (req, res) => {
     console.log(req.file);
     console.log(req.body);
+
+    res.status(201).send();
 });
 
 app.post('/input', (req, res) => {
     const { input } = req.body;
 
-    console.log('----------------------------');
     console.log('Input:');
     console.log(input);
 
+    res.status(201).send();
 });
 
 app.post('/textarea', (req, res) => {
@@ -40,7 +42,8 @@ app.post('/textarea', (req, res) => {
 
     console.log('Textarea:');
     console.log(textarea);
-    console.log('----------------------------');
+
+    res.status(201).send();
 });
 
 server.listen(3000, () => {
