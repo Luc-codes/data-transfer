@@ -1,9 +1,13 @@
 const path = require('path');
 const express = require('express');
+const multer = require('multer');
 const cors = require('cors');
 const app = express();
 
+const multerConfig = require('./config/multer');
+
 const server = require('http').createServer(app);
+const upload = multer(multerConfig);
 
 app.use(cors());
 app.use(express.json());
@@ -15,6 +19,11 @@ app.set('view engine', 'html');
 
 app.get('/', (req, res) => {
     res.render('index.html');
+});
+
+app.post('/upload', upload.single('file'), (req, res) => {
+    console.log(req.file);
+    console.log(req.body);
 });
 
 app.post('/input', (req, res) => {

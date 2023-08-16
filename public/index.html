@@ -6,17 +6,22 @@
     <title>Text Receiver</title>
 </head>
 <body>
-    <form id="inputForm" action="">
+    <form id="inputForm">
         <input id="inputElement" type="text">
         <button type="submit">Enviar</button>
     </form>
-    <form id="textareaForm" action="">
+    <form id="textareaForm">
         <textarea id="textareaElement" type="text"></textarea>
+        <button type="submit">Enviar</button>
+    </form>
+    <form id="fileForm" enctype="multipart/form-data">
+        <input id="fileInput" type="file">
         <button type="submit">Enviar</button>
     </form>
     <script>
         const inputForm = document.getElementById('inputForm');
         const textareaForm = document.getElementById('textareaForm');
+        const fileForm = document.getElementById('fileForm');
 
         inputForm.addEventListener('submit', (e) => {
             e.preventDefault();
@@ -42,6 +47,17 @@
             postJSON('http://127.0.0.1:3000/input', body);
         });
 
+        fileForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const formData = new FormData();
+            const fileInput = document.getElementById('fileInput');
+
+            formData.append('file', fileInput.files[0]);
+
+            upload('http://127.0.0.1:3000/upload', formData);
+        });
+
         async function postJSON(url, data) {
             try {
                 const response = await fetch(url, {
@@ -50,6 +66,21 @@
                         "Content-Type": "application/json",
                     },
                     body: JSON.stringify(data),
+                });
+
+                const result = await response.json();
+
+                console.log("Success:", result);
+            } catch (error) {
+                console.error("Error:", error);
+            }
+        }
+
+        async function upload(url, data) {
+            try {
+                const response = await fetch(url, {
+                    method: "POST",
+                    body: data,
                 });
 
                 const result = await response.json();
