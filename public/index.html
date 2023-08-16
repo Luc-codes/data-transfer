@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Receiver</title>
+</head>
+<body>
+    <form id="inputForm" action="">
+        <input id="inputElement" type="text">
+        <button type="submit">Enviar</button>
+    </form>
+    <form id="textareaForm" action="">
+        <textarea id="textareaElement" type="text"></textarea>
+        <button type="submit">Enviar</button>
+    </form>
+    <script>
+        const inputForm = document.getElementById('inputForm');
+        const textareaForm = document.getElementById('textareaForm');
+
+        inputForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const input = document.getElementById('inputElement').value;
+
+            const body = {
+                input,
+            };
+
+            postJSON('http://127.0.0.1:3000/input', body);
+        });
+
+        textareaForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const textarea = document.getElementById('textareaElement').value;
+
+            const body = {
+                textarea,
+            };
+
+            postJSON('http://127.0.0.1:3000/input', body);
+        });
+
+        async function postJSON(url, data) {
+            try {
+                const response = await fetch(url, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(data),
+                });
+
+                const result = await response.json();
+
+                console.log("Success:", result);
+            } catch (error) {
+                console.error("Error:", error);
+            }
+        }
+    </script>
+</body>
+</html> 
