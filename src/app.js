@@ -25,7 +25,7 @@ app.post('/upload', upload.single('file'), (req, res) => {
     console.log(req.file);
     console.log(req.body);
 
-    res.status(201).send();
+    res.status(201).json({});
 });
 
 app.post('/input', (req, res) => {
@@ -34,7 +34,7 @@ app.post('/input', (req, res) => {
     console.log('Input:');
     console.log(input);
 
-    res.status(201).send();
+    res.status(201).json({});
 });
 
 app.post('/textarea', (req, res) => {
@@ -43,7 +43,7 @@ app.post('/textarea', (req, res) => {
     console.log('Textarea:');
     console.log(textarea);
 
-    res.status(201).send();
+    res.status(201).json({});
 });
 
 server.listen(3000, () => {
